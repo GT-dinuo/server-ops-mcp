@@ -34,13 +34,6 @@ npm run build
 ```json
 {
   "mcpServers": {
-    "myproject-local": {
-      "command": "node",
-      "args": ["/absolute/path/to/server-ops-mcp/dist/index.js"],
-      "env": {
-        "OPS_PROJECT_ROOT": "/absolute/path/to/your/project"
-      }
-    },
     "myproject-server": {
       "command": "node",
       "args": ["/absolute/path/to/server-ops-mcp/dist/index.js"],
@@ -55,8 +48,6 @@ npm run build
   }
 }
 ```
-
-> ⚠️ 若 `.mcp.json` 中包含密码或私钥路径，**请勿提交到代码仓库**（本仓库的 `.gitignore` 已默认忽略它）。
 
 ### 环境变量
 
