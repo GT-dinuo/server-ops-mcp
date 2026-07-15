@@ -1,0 +1,46 @@
+{
+  "logChannels": {
+    "default": "logs",
+    "app": "logs/app",
+    "error": "logs/error",
+    "access": "logs/access"
+  },
+  "maxReadLines": 5000,
+  "maxReadBytes": 2097152,
+  "commandWhitelist": {
+    "direct": [
+      "git status",
+      "git log --oneline -{n}",
+      "git branch",
+      "git diff --stat",
+      "php think list",
+      "php think version",
+      "df -h",
+      "du -sh {path}",
+      "free -h",
+      "ps aux",
+      "top -bn1",
+      "uname -a",
+      "ls -la {path}",
+      "cat {path}",
+      "nginx -t",
+      "nginx -v",
+      "systemctl status {service}",
+      "journalctl -u {service} --no-pager -n {n}"
+    ],
+    "confirm": [
+      "git pull",
+      "git fetch",
+      "git checkout {branch}",
+      "git reset --hard {ref}",
+      "php think {command}",
+      "npm run {script}",
+      "pnpm run {script}",
+      "nginx -s reload",
+      "systemctl restart {service}",
+      "systemctl reload {service}",
+      "certbot --nginx -d {domains}",
+      "certbot renew"
+    ]
+  }
+}

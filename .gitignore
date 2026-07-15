@@ -1,0 +1,39 @@
+# 依赖
+node_modules/
+
+# 构建产物（由 npm run build 生成）
+dist/
+
+# 本地配置（以 config.example.json 为模板，勿提交真实配置）
+config.json
+
+# MCP 配置，可能包含 SSH 密码 / 私钥路径等敏感信息
+.mcp.json
+
+# 环境变量
+.env
+.env.*
+!.env.example
+
+# 日志
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# 编辑器 / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# 临时文件
+*.tmp
+.cache/

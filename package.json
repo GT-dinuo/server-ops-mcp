@@ -1,0 +1,30 @@
+{
+  "name": "server-ops-mcp",
+  "version": "1.0.0",
+  "description": "通用服务器运维 MCP Server，支持项目日志排查、系统资源查看、Nginx/证书管理、代码增删改查",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "server-ops-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["mcp", "server-ops", "devops"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "fast-glob": "^3.3.3",
+    "ssh2": "^1.17.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/ssh2": "^1.15.5",
+    "typescript": "^5.5.0"
+  }
+}
