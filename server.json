@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.GT-dinuo/server-ops-mcp",
   "description": "General-purpose server-ops MCP server: log troubleshooting, resource monitoring, code edit, Nginx & certificate management. Local and SSH-remote modes with two-step confirmation, command whitelist, and secret redaction.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "title": "Server Ops MCP",
   "websiteUrl": "https://github.com/GT-dinuo/server-ops-mcp",
   "repository": {
@@ -13,10 +13,68 @@
     {
       "registryType": "npm",
       "identifier": "server-ops-mcp",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "transport": {
         "type": "stdio"
-      }
+      },
+      "environmentVariables": [
+        {
+          "name": "OPS_PROJECT_ROOT",
+          "description": "Project root path; all file operations are sandboxed here",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "OPS_SSH_HOST",
+          "description": "Remote server IP / domain; leave empty to run locally",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "OPS_SSH_PORT",
+          "description": "SSH port, default 22",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "OPS_SSH_USER",
+          "description": "SSH username",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "OPS_SSH_KEY",
+          "description": "Path to SSH private key (choose either key or password)",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "OPS_SSH_PASSWORD",
+          "description": "SSH password (choose either key or password)",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "OPS_SSH_PASSPHRASE",
+          "description": "Private key passphrase",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "OPS_CONFIG_PATH",
+          "description": "Path to an extra config file (see config.example.json)",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        }
+      ]
     }
   ]
 }

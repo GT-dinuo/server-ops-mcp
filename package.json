@@ -1,6 +1,7 @@
 {
   "name": "server-ops-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "mcpName": "io.github.GT-dinuo/server-ops-mcp",
   "description": "General-purpose server-ops MCP server: log troubleshooting, resource monitoring, code edit, Nginx & certificate management. Local + SSH modes with confirmations & secret redaction.",
   "type": "module",
   "main": "dist/index.js",
