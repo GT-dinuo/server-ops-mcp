@@ -19,7 +19,9 @@
 
 ## 安装
 
-需要 Node.js 18+。
+需要 Node.js 18+。无需克隆或构建——`npx` 会在首次使用时自动拉取并运行已发布的 npm 包（见下方配置）。
+
+如需从源码构建（例如二次开发）：
 
 ```bash
 git clone https://github.com/GT-dinuo/server-ops-mcp.git
@@ -38,8 +40,8 @@ npm run build
 {
   "mcpServers": {
     "myproject-server": {
-      "command": "node",
-      "args": ["/absolute/path/to/server-ops-mcp/dist/index.js"],
+      "command": "npx",
+      "args": ["-y", "server-ops-mcp"],
       "env": {
         "OPS_PROJECT_ROOT": "/www/wwwroot/your-project",
         "OPS_SSH_HOST": "<server-ip-or-domain>",
@@ -51,6 +53,8 @@ npm run build
   }
 }
 ```
+
+如果你是从源码构建的，改为指向本地构建产物：`"command": "node"`，`"args": ["/absolute/path/to/server-ops-mcp/dist/index.js"]`。
 
 ### 环境变量
 
@@ -144,10 +148,11 @@ AI：（调用 confirm_execute 完成执行）
 
 ## 自定义配置
 
-复制 `config.example.json` 为 `config.json`，通过环境变量 `OPS_CONFIG_PATH` 指向它，即可自定义日志通道、命令白名单、读取上限等。
+下载 `config.example.json` 保存为 `config.json`，通过环境变量 `OPS_CONFIG_PATH` 指向它，即可自定义日志通道、命令白名单、读取上限等。
 
 ```bash
-cp config.example.json config.json
+curl -o config.json https://raw.githubusercontent.com/GT-dinuo/server-ops-mcp/main/config.example.json
+#（若已克隆仓库，也可直接 cp config.example.json config.json）
 # 编辑 config.json 后，在 .mcp.json 的 env 中设置：
 # "OPS_CONFIG_PATH": "/absolute/path/to/config.json"
 ```

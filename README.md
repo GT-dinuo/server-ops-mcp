@@ -22,7 +22,9 @@ Supports **local** and **remote (SSH)** modes, with built-in two-step confirmati
 
 ## Installation
 
-Requires Node.js 18+.
+Requires Node.js 18+. No clone or build needed — `npx` fetches and runs the published npm package on first use (see the config below).
+
+To build from source instead (e.g. for development):
 
 ```bash
 git clone https://github.com/GT-dinuo/server-ops-mcp.git
@@ -41,8 +43,8 @@ In each project where you want to use this tool, create (or append to) `.mcp.jso
 {
   "mcpServers": {
     "myproject-server": {
-      "command": "node",
-      "args": ["/absolute/path/to/server-ops-mcp/dist/index.js"],
+      "command": "npx",
+      "args": ["-y", "server-ops-mcp"],
       "env": {
         "OPS_PROJECT_ROOT": "/www/wwwroot/your-project",
         "OPS_SSH_HOST": "<server-ip-or-domain>",
@@ -54,6 +56,8 @@ In each project where you want to use this tool, create (or append to) `.mcp.jso
   }
 }
 ```
+
+If you built from source, point the command at the local build instead: `"command": "node"`, `"args": ["/absolute/path/to/server-ops-mcp/dist/index.js"]`.
 
 ### Environment Variables
 
@@ -147,10 +151,11 @@ AI: (calls confirm_execute to run it)
 
 ## Custom Configuration
 
-Copy `config.example.json` to `config.json`, then point `OPS_CONFIG_PATH` at it to customize log channels, the command whitelist, read limits, and more.
+Download `config.example.json` as `config.json`, then point `OPS_CONFIG_PATH` at it to customize log channels, the command whitelist, read limits, and more.
 
 ```bash
-cp config.example.json config.json
+curl -o config.json https://raw.githubusercontent.com/GT-dinuo/server-ops-mcp/main/config.example.json
+# (if you cloned the repo: cp config.example.json config.json)
 # After editing config.json, set in the .mcp.json env:
 # "OPS_CONFIG_PATH": "/absolute/path/to/config.json"
 ```
