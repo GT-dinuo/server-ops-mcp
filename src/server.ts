@@ -6,10 +6,17 @@ import {
   TextContent,
   Tool,
 } from '@modelcontextprotocol/sdk/types.js';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { loadConfig } from './config.js';
 import { SecurityService, maskSecrets } from './security.js';
 import { CommandExecutor } from './executor.js';
 import { ALL_TOOLS, TOOL_REGISTRY, ToolContext, ToolDefinition } from './tools/index.js';
+
+const packageJson = JSON.parse(
+  readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'package.json'), 'utf-8')
+) as { version: string };
 
 export class OpsMcpServer {
   private server: Server;
@@ -23,7 +30,7 @@ export class OpsMcpServer {
     this.executor = new CommandExecutor(this.config);
 
     this.server = new Server(
-      { name: 'server-ops-mcp', version: '1.0.0' },
+      { name: 'server-ops-mcp', version: packageJson.version },
       { capabilities: { tools: {} } }
     );
 

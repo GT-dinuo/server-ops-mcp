@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.GT-dinuo/server-ops-mcp",
   "description": "Server ops MCP: logs, monitoring, code edit, Nginx & certs. Local + SSH, confirmations & redaction.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "title": "Server Ops MCP",
   "websiteUrl": "https://github.com/GT-dinuo/server-ops-mcp",
   "repository": {
@@ -13,7 +13,7 @@
     {
       "registryType": "npm",
       "identifier": "server-ops-mcp",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "transport": {
         "type": "stdio"
       },
