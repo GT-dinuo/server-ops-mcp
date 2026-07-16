@@ -2,6 +2,7 @@
 
 **English** | [简体中文](./README.zh-CN.md)
 
+[![npm version](https://img.shields.io/npm/v/server-ops-mcp.svg)](https://www.npmjs.com/package/server-ops-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
 [![MCP](https://img.shields.io/badge/MCP-Server-blue)](https://modelcontextprotocol.io)

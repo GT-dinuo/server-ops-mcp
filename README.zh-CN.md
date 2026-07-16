@@ -2,6 +2,7 @@
 
 [English](./README.md) | **简体中文**
 
+[![npm version](https://img.shields.io/npm/v/server-ops-mcp.svg)](https://www.npmjs.com/package/server-ops-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 通用服务器运维 MCP Server。让 Claude Code / Cursor / Codex 等 AI 工具，通过 `.mcp.json` 配置多个项目或服务器，完成**日志排查、系统资源查看、代码增删改查、Nginx / 证书管理**等运维操作。
