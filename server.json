@@ -1,0 +1,12 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.GT-dinuo/server-ops-mcp",
+  "description": "General-purpose server-ops MCP server: log troubleshooting, resource monitoring, code edit, Nginx & certificate management. Local and SSH-remote modes with two-step confirmation, command whitelist, and secret redaction.",
+  "version": "1.0.0",
+  "title": "Server Ops MCP",
+  "websiteUrl": "https://github.com/GT-dinuo/server-ops-mcp",
+  "repository": {
+    "url": "https://github.com/GT-dinuo/server-ops-mcp",
+    "source": "github"
+  }
+}
