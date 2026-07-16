@@ -1,22 +1,27 @@
 # Server Ops MCP
 
+**English** | [简体中文](./README.zh-CN.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
+[![MCP](https://img.shields.io/badge/MCP-Server-blue)](https://modelcontextprotocol.io)
+[![GitHub stars](https://img.shields.io/github/stars/GT-dinuo/server-ops-mcp?style=social)](https://github.com/GT-dinuo/server-ops-mcp)
 
-通用服务器运维 MCP Server。让 Claude Code / Cursor / Codex 等 AI 工具，通过 `.mcp.json` 配置多个项目或服务器，完成**日志排查、系统资源查看、代码增删改查、Nginx / 证书管理**等运维操作。
+A general-purpose server-ops MCP Server. Let AI tools like Claude Code / Cursor / Codex manage multiple projects or servers through `.mcp.json` — **log troubleshooting, system resource inspection, code read/write, and Nginx / certificate management**.
 
-支持**本地**与**远程（SSH）**两种模式，内置二次确认、命令白名单、路径穿越防护与敏感信息脱敏。
+Supports **local** and **remote (SSH)** modes, with built-in two-step confirmation, command whitelisting, path-traversal protection, and automatic secret redaction.
 
-## 功能特性
+## Features
 
-- 🔍 **日志排查**：列出 / 读取 / 搜索项目日志，支持多通道日志与系统日志
-- 📊 **资源监控**：CPU / 内存 / 磁盘 / 负载 / 进程 / 服务状态一键查看
-- 📁 **代码操作**：文件读写、局部修改、删除、搜索，限制在项目根目录内
-- 🌐 **Nginx / 证书**：配置测试与读取、安全重载、证书安装与续期
-- 🔒 **安全可控**：写操作二次确认、命令白名单、路径穿越防护、自动脱敏
+- 🔍 **Log troubleshooting**: list / read / search project logs, multi-channel logs & system logs
+- 📊 **Resource monitoring**: CPU / memory / disk / load / processes / service status at a glance
+- 📁 **Code operations**: read, write, patch, delete, and search files — all sandboxed to the project root
+- 🌐 **Nginx & certificates**: config test & read, safe reload, certificate install & renewal
+- 🔒 **Secure by design**: two-step confirmation for writes, command whitelist, path-traversal protection, auto redaction
 
-## 安装
+## Installation
 
-需要 Node.js 18+。
+Requires Node.js 18+.
 
 ```bash
 git clone https://github.com/GT-dinuo/server-ops-mcp.git
@@ -25,11 +30,11 @@ npm install
 npm run build
 ```
 
-构建产物输出到 `dist/`，入口为 `dist/index.js`。
+Build output goes to `dist/`; the entry point is `dist/index.js`.
 
-## 配置
+## Configuration
 
-在需要使用本工具的项目中，创建（或追加）`.mcp.json`，为每个环境声明一个 MCP Server。本地模式只需 `OPS_PROJECT_ROOT`；远程模式再补充 SSH 相关变量。
+In each project where you want to use this tool, create (or append to) `.mcp.json` and declare an MCP Server per environment. Local mode only needs `OPS_PROJECT_ROOT`; remote mode adds the SSH variables.
 
 ```json
 {
@@ -49,128 +54,128 @@ npm run build
 }
 ```
 
-### 环境变量
+### Environment Variables
 
-| 变量 | 必填 | 说明 |
-|------|------|------|
-| `OPS_PROJECT_ROOT` | 是 | 项目根目录路径，所有文件操作都限制在此目录内 |
-| `OPS_SSH_HOST` | 否 | 远程服务器 IP / 域名，留空则在本地执行 |
-| `OPS_SSH_PORT` | 否 | SSH 端口，默认 `22` |
-| `OPS_SSH_USER` | 否 | SSH 用户名 |
-| `OPS_SSH_KEY` | 否 | SSH 私钥路径（与密码二选一） |
-| `OPS_SSH_PASSWORD` | 否 | SSH 密码（与密钥二选一） |
-| `OPS_SSH_PASSPHRASE` | 否 | 私钥 passphrase |
-| `OPS_CONFIG_PATH` | 否 | 额外配置文件路径，见下文「自定义配置」 |
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `OPS_PROJECT_ROOT` | Yes | Project root path; all file operations are sandboxed here |
+| `OPS_SSH_HOST` | No | Remote server IP / domain; leave empty to run locally |
+| `OPS_SSH_PORT` | No | SSH port, default `22` |
+| `OPS_SSH_USER` | No | SSH username |
+| `OPS_SSH_KEY` | No | Path to SSH private key (choose either key or password) |
+| `OPS_SSH_PASSWORD` | No | SSH password (choose either key or password) |
+| `OPS_SSH_PASSPHRASE` | No | Private key passphrase |
+| `OPS_CONFIG_PATH` | No | Path to an extra config file — see "Custom Configuration" |
 
-## 使用教程
+## Usage
 
-配置完成后，在 AI 工具中直接用自然语言下达运维指令即可。AI 会自动选择合适的工具并调用。
+Once configured, just give ops instructions in natural language in your AI tool. The AI picks and calls the right tool automatically.
 
-### 只读操作（直接执行）
-
-```
-帮我看看服务器的 CPU、内存和磁盘占用情况
-最近一小时 error 级别的日志有哪些？帮我搜一下
-列出项目里有哪些日志文件
-读一下 Nginx 配置，检查有没有问题
-搜索代码里所有调用 sendSms 的地方
-```
-
-### 写操作（需二次确认）
-
-涉及写入、删除、命令执行、Nginx 重载、证书安装等操作时，工具会先返回一个 `confirmationId`，AI 会向你展示将要执行的内容，**确认后才真正执行**：
+### Read-only operations (run directly)
 
 ```
-你：帮我把 nginx 重载一下
-AI：（调用 nginx_reload，返回待确认操作及 confirmationId）
-    即将执行：nginx -s reload，是否确认？
-你：确认
-AI：（调用 confirm_execute 完成执行）
+Check the server's CPU, memory, and disk usage
+Search for error-level logs from the last hour
+List the project's log files
+Read the Nginx config and check for problems
+Find every place in the code that calls sendSms
 ```
 
-可通过 `file_write`、`file_patch`、`file_delete`、`command_exec` 等完成代码变更与命令执行，均遵循同样的确认流程。
+### Write operations (require confirmation)
 
-### 典型场景
+For writes, deletes, command execution, Nginx reload, certificate install, and similar, the tool first returns a `confirmationId`. The AI shows you exactly what will run, and it **only executes after you confirm**:
 
-- **线上排障**：`帮我分析下服务器内存为什么满了` → `memory_analysis` + `log_search` 联动排查
-- **日常巡检**：`看下磁盘快满了没有，哪个目录占得最多` → `disk_analysis`
-- **安全审计**：`审计一下项目配置，有没有泄露的密钥` → `config_audit`（自动脱敏输出）
+```
+You: Reload nginx
+AI: (calls nginx_reload, returns the pending action + confirmationId)
+    About to run: nginx -s reload. Confirm?
+You: Confirm
+AI: (calls confirm_execute to run it)
+```
 
-## 工具列表
+`file_write`, `file_patch`, `file_delete`, `command_exec`, and similar all follow the same confirmation flow.
 
-### 系统运维
+### Typical scenarios
 
-| 工具 | 说明 |
-|------|------|
-| `system_info` | 查看 CPU / 内存 / 磁盘 / 负载 / 进程 |
-| `memory_analysis` | 内存占用分析 |
-| `disk_analysis` | 磁盘占用分析 |
-| `service_status` | 查看服务状态 |
-| `log_search_system` | 搜索系统日志 |
-| `nginx_config_test` | 测试 Nginx 配置 |
-| `nginx_config_read` | 读取 Nginx 配置 |
-| `nginx_reload` | 重载 Nginx（需确认） |
-| `certbot_install` | 安装证书（需确认） |
-| `certbot_renew` | 续期证书（需确认） |
+- **Production troubleshooting**: "Why is the server memory full?" → `memory_analysis` + `log_search` working together
+- **Routine inspection**: "Is the disk almost full? Which directory uses the most?" → `disk_analysis`
+- **Security audit**: "Audit the project config for leaked secrets" → `config_audit` (output is auto-redacted)
 
-### 项目代码
+## Tool List
 
-| 工具 | 说明 |
-|------|------|
-| `log_list` | 列出项目日志 |
-| `log_read` | 读取日志 |
-| `log_search` | 搜索日志 |
-| `file_read` | 读取文件 |
-| `file_list` | 列出目录 |
-| `file_search` | 搜索代码 |
-| `file_write` | 写入文件（需确认） |
-| `file_patch` | 局部修改文件（需确认） |
-| `file_delete` | 删除文件（需确认） |
-| `command_exec` | 执行白名单命令 |
-| `project_overview` | 项目概览 |
-| `config_audit` | 审计配置（自动脱敏） |
-| `confirm_execute` | 确认并执行待二次确认的操作 |
+### System Ops
 
-## 安全说明
+| Tool | Description |
+|------|-------------|
+| `system_info` | CPU / memory / disk / load / processes |
+| `memory_analysis` | Memory usage analysis |
+| `disk_analysis` | Disk usage analysis |
+| `service_status` | Service status |
+| `log_search_system` | Search system logs |
+| `nginx_config_test` | Test Nginx config |
+| `nginx_config_read` | Read Nginx config |
+| `nginx_reload` | Reload Nginx (requires confirmation) |
+| `certbot_install` | Install certificate (requires confirmation) |
+| `certbot_renew` | Renew certificate (requires confirmation) |
 
-1. **只读工具**可直接执行。
-2. **写操作、命令执行、Nginx 重载、证书安装**等需用户二次确认（`confirm_execute`）。
-3. 命令执行走白名单机制，拒绝 `rm -rf`、`sudo`、管道到 shell 等危险操作。
-4. 文件操作限制在 `OPS_PROJECT_ROOT` 目录内，禁止路径穿越。
-5. 读取 `.env`、日志时自动脱敏密码、Token 等敏感信息。
+### Project Code
 
-## 自定义配置
+| Tool | Description |
+|------|-------------|
+| `log_list` | List project logs |
+| `log_read` | Read a log |
+| `log_search` | Search logs |
+| `file_read` | Read a file |
+| `file_list` | List a directory |
+| `file_search` | Search code |
+| `file_write` | Write a file (requires confirmation) |
+| `file_patch` | Patch a file (requires confirmation) |
+| `file_delete` | Delete a file (requires confirmation) |
+| `command_exec` | Run whitelisted commands |
+| `project_overview` | Project overview |
+| `config_audit` | Audit config (auto-redacted) |
+| `confirm_execute` | Confirm and run a pending action |
 
-复制 `config.example.json` 为 `config.json`，通过环境变量 `OPS_CONFIG_PATH` 指向它，即可自定义日志通道、命令白名单、读取上限等。
+## Security
+
+1. **Read-only tools** run directly.
+2. **Writes, command execution, Nginx reload, certificate install** require two-step confirmation (`confirm_execute`).
+3. Command execution uses a whitelist — dangerous operations like `rm -rf`, `sudo`, and piping into a shell are rejected.
+4. File operations are sandboxed to `OPS_PROJECT_ROOT`; path traversal is blocked.
+5. Passwords, tokens, and other secrets in `.env` files and logs are automatically redacted.
+
+## Custom Configuration
+
+Copy `config.example.json` to `config.json`, then point `OPS_CONFIG_PATH` at it to customize log channels, the command whitelist, read limits, and more.
 
 ```bash
 cp config.example.json config.json
-# 编辑 config.json 后，在 .mcp.json 的 env 中设置：
+# After editing config.json, set in the .mcp.json env:
 # "OPS_CONFIG_PATH": "/absolute/path/to/config.json"
 ```
 
-`config.example.json` 主要字段：
+Main fields of `config.example.json`:
 
-- `logChannels`：日志通道名 → 日志目录相对路径
-- `maxReadLines` / `maxReadBytes`：单次读取的行数 / 字节上限
-- `commandWhitelist.direct`：可直接执行的命令
-- `commandWhitelist.confirm`：需二次确认的命令
+- `logChannels`: channel name → log directory path (relative to project root)
+- `maxReadLines` / `maxReadBytes`: per-read line / byte limits
+- `commandWhitelist.direct`: commands that run directly
+- `commandWhitelist.confirm`: commands that require confirmation
 
-## 开发
+## Development
 
 ```bash
-npm run dev    # watch 模式，改动自动编译
-npm run build  # 构建到 dist/
-npm run clean  # 清理 dist/
-npm start      # 直接运行已构建的 Server
+npm run dev    # watch mode, recompiles on change
+npm run build  # build to dist/
+npm run clean  # remove dist/
+npm start      # run the built Server
 ```
 
-## 注意事项
+## Notes
 
-- 远程操作依赖 SSH，建议为 AI 配置**只读账号**或严格收敛命令白名单。
-- 私钥文件权限应设为 `600`（`chmod 600 ~/.ssh/id_rsa`）。
-- 不要将包含密码的 `.mcp.json`、`config.json` 提交到代码仓库。
+- Remote operations rely on SSH — use a **read-only account** or a tightly-scoped command whitelist for the AI.
+- Private key files should have permission `600` (`chmod 600 ~/.ssh/id_rsa`).
+- Never commit `.mcp.json` or `config.json` containing passwords to a repository.
 
-## 许可证
+## License
 
 [MIT](./LICENSE) © 2026 server-ops-mcp
