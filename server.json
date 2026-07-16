@@ -8,5 +8,15 @@
   "repository": {
     "url": "https://github.com/GT-dinuo/server-ops-mcp",
     "source": "github"
-  }
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "server-ops-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
 }
