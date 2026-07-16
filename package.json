@@ -1,21 +1,49 @@
 {
   "name": "server-ops-mcp",
   "version": "1.0.0",
-  "description": "通用服务器运维 MCP Server，支持项目日志排查、系统资源查看、Nginx/证书管理、代码增删改查",
+  "description": "General-purpose server-ops MCP server: log troubleshooting, resource monitoring, code edit, Nginx & certificate management. Local + SSH modes with confirmations & secret redaction.",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
     "server-ops-mcp": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "config.example.json",
+    "server.json",
+    "README.zh-CN.md"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
   },
-  "keywords": ["mcp", "server-ops", "devops"],
-  "author": "",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "server-ops",
+    "devops",
+    "claude",
+    "cursor",
+    "ssh",
+    "nginx",
+    "log-analysis",
+    "ai-agent"
+  ],
+  "author": "GT-dinuo",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GT-dinuo/server-ops-mcp.git"
+  },
+  "homepage": "https://github.com/GT-dinuo/server-ops-mcp#readme",
+  "bugs": "https://github.com/GT-dinuo/server-ops-mcp/issues",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "fast-glob": "^3.3.3",
